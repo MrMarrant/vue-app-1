@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Au Secour</title>
+    <title>Status Serveurs RiTo</title>
 
     <style>
         
@@ -27,6 +27,10 @@
     	text-align:center;
     }
 
+    a, a:visited {
+    	outline:none;
+    	color:#389dc1;
+    }
 
     a:hover{
     	text-decoration:none;
@@ -51,24 +55,6 @@
 
     form h1{
     	color:#fff;
-    	font-size:30px;
-    	font-weight: normal;
-    	line-height:1;
-    	text-shadow:0 3px 0 rgba(0,0,0,0.1);
-    }
-
-    .second{
-    	background-color: #c24e4e;
-    	border-radius: 2px;
-        box-shadow: 0 1px 1px rgb(94, 93, 93);
-        bottom: 10px;
-    	width: 400px;
-    	padding: 35px 0px;
-    	margin: 50px auto;
-    }
-
-    second h1{
-    	color:#fff;
     	font-size:64px;
     	font-weight: normal;
     	line-height:1;
@@ -84,7 +70,7 @@
 
 <form id="main" v-cloak>
 
-    <h1>Blague Du Jour</h1>
+    <h1>Etats des serveurs Riot</h1>
     <button type = "button" id = "get-joke" @click="fetchAPIData">Blague Random</button>
 
 
@@ -100,39 +86,13 @@
 </div>
 
 
-
-
-
-
-<div class="second" >
-
-    <h1>Insertion</h1>
-    <input>
-    <button type = "button" id = "get-joke2" @click="fetchAPIData2">Blague moins random</button>
-
-
-    <div v-if = "responseAvailable2 == true">
-        <hr>
-        <p>
-            <i>{{result2}}</i>
-            <br>
-            <hr>
-            <i>{{responseAvailable2}}</i>
-        
-        <hr>
-    </div>
-
-
-
-
-</div>
 </form>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
-    const apiURL = 'https://joke3.p.rapidapi.com/v1/joke'
-    const apiURL2 ='https://joke3.p.rapidapi.com/v1/joke/%7Bid%7D'
+    const apiURL = 'https://ap.api.riotgames.com/val/status/v1/platform-data?api_key=RGAPI-2f94a967-2fa0-42db-8e42-1b36a381d93e'
 
 // Define a custom filter called "currency". 
 Vue.filter('currency', function (value) {
@@ -143,45 +103,29 @@ var app = new Vue({
     el: '#main',
     data: {
     	result: "yolo",
-        responseAvailable: false,
-        responseAvailable2: false,
-        result2: "yolo2"
+        responseAvailable: false
     },
     methods: {
 
         fetchAPIData: function () {
             axios.get(apiURL,{
                 headers: {
-                  'x-rapidapi-key': "e42a44444fmsh33250968d99735ap1d5e08jsn2a372ce9267d",
-                  "x-rapidapi-host": "joke3.p.rapidapi.com"
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36",
+                    "Accept-Language": "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7",
+                    "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "Origin": "https://developer.riotgames.com",
+                    "X-Riot-Token": "RGAPI-2f94a967-2fa0-42db-8e42-1b36a381d93e"
                 }
               })
             .then(response => {
-                this.result = response.data.content; 
+                this.result = response.name; 
                 this.responseAvailable = true;
-                console.log("voici le contenu : " + response.data);
+                console.log("voici le contenu : " + response.name);
             })
             .catch((error) => {
               console.log(error);
             })
-      },
-
-      fetchAPIData2: function () {
-        axios.get(apiURL2,{
-            headers: {
-              'x-rapidapi-key': "e42a44444fmsh33250968d99735ap1d5e08jsn2a372ce9267d",
-              "x-rapidapi-host": "joke3.p.rapidapi.com"
-            }
-          })
-        .then(response => {
-            this.result2 = response.data; 
-            this.responseAvailable2 = true;
-            console.log("voici le contenu : " + response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-  }
+      }
     	
     }
 });
