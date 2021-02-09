@@ -176,7 +176,7 @@ var app = new Vue({
             }
           })
         .then(response => {
-            this.resultSearched = response.data; 
+            this.resultSearched = "Masse Atomique : " + response.data.AtomicMass; 
             this.responseSearched = true;
             console.log("voici le contenu : " + response.data);
         })
