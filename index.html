@@ -22,8 +22,9 @@
     }
 
     body{
-    	font:15px/1.3 'Open Sans', sans-serif;
-    	color: #5e5b64;
+    	font:35px/1.3 'Open Sans', sans-serif;
+    	color: #8369b9;
+        background-color: #8369b9;
     	text-align:center;
     }
 
@@ -114,10 +115,10 @@
     <div v-if = "responseAvailable2 == true">
         <hr>
         <p>
-            <i>{{result2}}</i>
+            <i>{{resultSearched}}</i>
             <br>
             <hr>
-            <i>{{responseAvailable2}}</i>
+            <i>{{responseSearched}}</i>
         
         <hr>
     </div>
@@ -144,8 +145,8 @@ var app = new Vue({
     data: {
     	result: "yolo",
         responseAvailable: false,
-        responseAvailable2: false,
-        result2: "yolo2"
+        responseSearched: false,
+        resultSearched: "yolo2"
     },
     methods: {
 
@@ -174,8 +175,8 @@ var app = new Vue({
             }
           })
         .then(response => {
-            this.result2 = response.data; 
-            this.responseAvailable2 = true;
+            this.resultSearched = response.data; 
+            this.responseSearched = true;
             console.log("voici le contenu : " + response.data);
         })
         .catch((error) => {
