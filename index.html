@@ -108,9 +108,8 @@
 <div class="second" >
 
     <h1>Insertion</h1>
-    <input>
-    <button type = "button" id = "get-joke2" @click="fetchAPIData2">Blague moins random</button>
-
+    <input v-model="message" placeholder="Indiquer un élément">
+    <button type = "button" id = "get-joke2" @click="fetchAPIData2">Chercher un élément du tableau périodique</button>
 
     <div v-if = "responseSearched == true">
         <hr>
@@ -118,7 +117,6 @@
             <i>{{resultSearched}}</i>
             <br>
             <hr>
-            <i>{{responseSearched}}</i>
         
         <hr>
     </div>
@@ -133,7 +131,7 @@
 
 <script>
     const apiURL = 'https://joke3.p.rapidapi.com/v1/joke'
-    const apiURL2 ='https://joke3.p.rapidapi.com/v1/joke/%7Bid%7D'
+    const apiURL2 ='https://periodic-table-of-elements.p.rapidapi.com/element/name/'
 
 // Define a custom filter called "currency". 
 Vue.filter('currency', function (value) {
@@ -146,15 +144,16 @@ var app = new Vue({
     	result: "yolo",
         responseAvailable: false,
         responseSearched: false,
-        resultSearched: "yolo2"
+        resultSearched: "yolo2",
+        message: ''
     },
     methods: {
 
         fetchAPIData: function () {
             axios.get(apiURL,{
                 headers: {
-                  'x-rapidapi-key': "e42a44444fmsh33250968d99735ap1d5e08jsn2a372ce9267d",
-                  "x-rapidapi-host": "joke3.p.rapidapi.com"
+                    'x-rapidapi-key': "e42a44444fmsh33250968d99735ap1d5e08jsn2a372ce9267d",
+                    "x-rapidapi-host": "joke3.p.rapidapi.com"
                 }
               })
             .then(response => {
@@ -163,15 +162,17 @@ var app = new Vue({
                 console.log("voici le contenu : " + response.data);
             })
             .catch((error) => {
-              console.log(error);
+                console.log(error);
             })
-      },
+        },
 
-      fetchAPIData2: function () {
-        axios.get(apiURL2,{
-            headers: {
-              'x-rapidapi-key': "e42a44444fmsh33250968d99735ap1d5e08jsn2a372ce9267d",
-              "x-rapidapi-host": "joke3.p.rapidapi.com"
+        fetchAPIData2: function () {
+            message = this.message;
+            axios.get(apiURL2 + message ,{
+                headers: {
+                    method: 'GET',
+                    'x-rapidapi-key': "e42a44444fmsh33250968d99735ap1d5e08jsn2a372ce9267d",
+                    "x-rapidapi-host": "periodic-table-of-elements.p.rapidapi.com"
             }
           })
         .then(response => {
