@@ -85,52 +85,48 @@
 
 <form id="main" v-cloak>
 
-    <h1>Blague Du Jour</h1>
-    <button type = "button" id = "get-joke" @click="fetchAPIData">Blague Random</button>
+    <div class="second" >
 
-
-    <div v-if = "responseAvailable == true">
-        <hr>
-        <p>
-            <i>{{result}}</i>
-            <br>
+        <h1>Trouver la masse atomique d'un atome</h1>
+        <input v-model="message" placeholder="Indiquer un élément">
+        <button type = "button" id = "get-joke2" @click="fetchAPIData2">Chercher</button>
+    
+        <div v-if = "responseSearched == true">
             <hr>
-            <i>{{responseAvailable}}</i>
-        
-        <hr>
-</div>
-
-
-
-
-
-
-<div class="second" >
-
-    <h1>Trouver la masse atomique d'un atome</h1>
-    <input v-model="message" placeholder="Indiquer un élément">
-    <button type = "button" id = "get-joke2" @click="fetchAPIData2">Chercher</button>
-
-    <div v-if = "responseSearched == true">
-        <hr>
-        <p>
-            <i>{{resultSearched}}</i>
-            <br>
+            <p>
+                <i>{{resultSearched}}</i>
+                <br>
+                <hr>
+            
             <hr>
-        
-        <hr>
+        </div>
+    
+    
+    
+    
     </div>
 
+    <h1>Liste du tableau périodique des éléments</h1>
+    <!-- <button type = "button" id = "get-joke" @click="fetchAPIData">Blague Random</button> -->
+
+
+        <hr>
+        <p>
+            <li v-for="item in result">
+                {{ item.Element }}
+              </li>
+            <br>
+            <hr>
+        
 
 
 
-</div>
 </form>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
-    const apiURL = 'https://joke3.p.rapidapi.com/v1/joke'
+    const apiURL = 'https://periodic-table-of-elements.p.rapidapi.com/elements'
     const apiURL2 ='https://periodic-table-of-elements.p.rapidapi.com/element/name/'
 
 // Define a custom filter called "currency". 
@@ -141,23 +137,27 @@ Vue.filter('currency', function (value) {
 var app = new Vue({
     el: '#main',
     data: {
-    	result: "yolo",
+    	result: "",
         responseAvailable: false,
         responseSearched: false,
-        resultSearched: "yolo2",
+        resultSearched: "",
         message: ''
+    },
+    created: function () {
+        this.fetchAPIData()
     },
     methods: {
 
         fetchAPIData: function () {
             axios.get(apiURL,{
                 headers: {
+                    method: 'GET',
                     'x-rapidapi-key': "e42a44444fmsh33250968d99735ap1d5e08jsn2a372ce9267d",
-                    "x-rapidapi-host": "joke3.p.rapidapi.com"
+                    "x-rapidapi-host": "periodic-table-of-elements.p.rapidapi.com"
                 }
-              })
+            })
             .then(response => {
-                this.result = response.data.content; 
+                this.result = response.data; 
                 this.responseAvailable = true;
                 console.log("voici le contenu : " + response.data);
             })
